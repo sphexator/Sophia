@@ -1,13 +1,23 @@
 // Beginning of file
-const config = require('./config/config.js');
+const Eris = require('eris');
+const config = require('./config/config')
+process.env.NODE_ENV = 'development';
 
-var bot = new Eris(global.gConfig.token);
+bot = new Eris.CommandClient(global.gConfig.token, {}, {
+  description: '',
+  prefix: ['-', '@mention'],
+  ignoreBots: true,
+  owner: 'Sphexator',
+  name: "Sophia",
+  ignoreSelf: true,
+  defaultHelpCommand: true
+});
+
+require('./Handler/CommandHandler');
+require('./Handler/EventHandler');
+
 bot.on("ready", () => {
     console.log("Ready!");
 });
-bot.on("messageCreate", (msg) => {
-    if(msg.content === "!ping") {
-        bot.createMessage(msg.channel.id, "Pong!");
-    }
-});
+
 bot.connect();
